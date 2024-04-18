@@ -65,10 +65,10 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
+      run: cd openwrt/openwrt-18.06 && ./scripts/feeds update -a
 
     - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a
+      run: cd openwrt/openwrt-18.06 && ./scripts/feeds install -a
 
     - name: Load custom configuration
       run: |
@@ -81,7 +81,7 @@ jobs:
     - name: Download package
       id: package
       run: |
-        cd openwrt
+        cd openwrt/openwrt-18.06
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -90,7 +90,7 @@ jobs:
     - name: Compile the firmware
       id: compile
       run: |
-        cd openwrt
+        cd openwrt/openwrt-18.06
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
